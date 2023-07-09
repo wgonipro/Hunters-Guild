@@ -2,11 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Character
+public class Enemy : Character
 {
-    public Weapon sword;
-    
-
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -16,13 +13,11 @@ public class Player : Character
     // Update is called once per frame
     protected override void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            sword.isAttacking = true;
-            base.Attack();
-            sword.isAttacking = false;
-        }
+        base.Update();
     }
 
-    
+    private void OnCollisionEnter(Collision collision)
+    {
+        print($"Enemy collided with: {collision.gameObject}");
+    }
 }

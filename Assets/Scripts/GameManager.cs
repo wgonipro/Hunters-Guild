@@ -37,8 +37,4 @@ public class GameManager : MonoBehaviour
         
     }
 
-    public void generateLand()
-    {
-
-    }
 }
