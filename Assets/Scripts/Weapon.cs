@@ -5,7 +5,8 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     public int damage = 10;
-    private float dmgDelay = 3;
+    private float dmgDelay = 3f;
+    private bool b_hasAttacked = false;
     private bool b_isAttacking = false;
     public MeshCollider meshCollider;
 
@@ -38,7 +39,21 @@ public class Weapon : MonoBehaviour
         print($"Attacking? {isAttacking}, character? {character.name}");
         if (isAttacking && character != null)
         {
-            character.TakeDamage(damage);
+            // possibly need to get a lock here?
+            if (!b_hasAttacked)
+            {
+                StartCoroutine(attackDelay());
+                character.TakeDamage(damage);
+            }
         }
+    }
+
+    private IEnumerator attackDelay()
+    {
+        b_hasAttacked = true;
+        print($"{this.name} is attacking");
+        yield return new WaitForSeconds(dmgDelay);
+        b_hasAttacked = false;
+        print($"{this.name} has attacked");
     }
 }

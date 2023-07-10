@@ -5,7 +5,19 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     protected Animator animator;
+    protected bool b_isAttacking = false;
     public float health = 100;
+    public float f_attackSeconds = 3f;
+
+    public float attackSeconds
+    {
+        get => f_attackSeconds;
+    }
+
+    protected void Awake()
+    {
+        
+    }
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -25,14 +37,22 @@ public class Character : MonoBehaviour
 
     protected void Attack()
     {
-        print("Attack!");
         animator.SetTrigger("Attack");
+    }
+
+    protected virtual void Die()
+    {
+        Destroy(this.gameObject);
     }
 
     public void TakeDamage(float dmgAmount)
     {
         print($"{this.name} took {dmgAmount} damage!");
-        print($"Health: {health}");
         health -= dmgAmount;
+        if (health <= 0)
+        {
+            Die();
+        }
+        print($"Health: {health}");
     }
 }
